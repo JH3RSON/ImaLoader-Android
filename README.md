@@ -93,8 +93,25 @@ If ImaLoader is helpful to you, makes downloading your favorite media easy, or y
 
 ---
 
+## 💬 Get in Touch
+
+Got questions, found an issue, or have a suggestion for the next release? Reach out to me directly:
+
+<div align="center">
+  <br />
+
+  <!-- Telegram Contact Button -->
+  <a href="https://t.me/IMA_2830" target="_blank" rel="noopener noreferrer">
+    <img src="https://img.shields.io/badge/Telegram-Chat_with_IMA-24A1DE?style=for-the-badge&logo=telegram&logoColor=white" height="48" alt="Chat on Telegram" />
+  </a>
+
+  <br />
+</div>
+
+---
+
 <div align="center">
 
-### Made with ❤️ by **IMA**
+### Made with ❤️️ by **IMA**
 
 </div>
