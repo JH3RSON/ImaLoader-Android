@@ -1,90 +1,99 @@
 <div align="center">
 
-<!-- Animated Header Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20,27&height=230&section=header&text=ImaLoader&fontSize=75&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Fast%2C%20Free%20%26%20Open-Source%20Media%20Downloader%20for%20Android&descAlignY=58&descAlign=50" width="100%" alt="ImaLoader Banner" />
+# ⚡ ImaLoader
 
+<!-- Animated Dynamic Typing Banner (High-reliability GitHub SVG) -->
+<a href="https://github.com/JH3RSON/ImaLoader-Android">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=38BDF8&center=true&vCenter=true&multiline=true&width=620&height=80&lines=High-Performance+Android+Media+Downloader;Native+Quality+Video+%2B+Clean+AAC+Audio;100%25+Open-Source+%26+Non-Profit+Project" alt="Typing SVG" />
+</a>
+
+<br />
+
+<!-- Project Status Badges -->
 <p align="center">
-  <img src="https://img.shields.io/badge/Platform-Android-3DDC84?style=for-the-badge&logo=android&logoColor=white" alt="Platform: Android" />
-  <img src="https://img.shields.io/badge/Language-Kotlin-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Language: Kotlin" />
-  <img src="https://img.shields.io/badge/Status-100%25%20Open%20Source-00D26A?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Open Source" />
-  <img src="https://img.shields.io/badge/Project-Non--Profit-FF6F00?style=for-the-badge" alt="Non-Profit" />
+  <img src="https://img.shields.io/badge/Platform-Android-34D399?style=for-the-badge&logo=android&logoColor=white" alt="Android" />
+  <img src="https://img.shields.io/badge/Language-Kotlin-A855F7?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin" />
+  <img src="https://img.shields.io/badge/License-Open%20Source-38BDF8?style=for-the-badge&logo=open-source-initiative&logoColor=white" alt="Open Source" />
+  <img src="https://img.shields.io/badge/Model-Non--Profit-FB923C?style=for-the-badge&logo=heart&logoColor=white" alt="Non-Profit" />
 </p>
 
 <p align="center">
-  <strong>ImaLoader</strong> is an independent, non-profit, open-source Android application built to download high-resolution video and clean audio from your favorite social media platforms quickly and easily.
+  <strong>ImaLoader</strong> is an independent, lightning-fast media downloader for Android.<br />
+  Grab top-resolution video and crystal-clear audio from all major social networks with zero telemetry, zero bloat, and total privacy.
 </p>
 
 ---
 
 </div>
 
-## 🌐 Supported Platforms
+## 🌐 Supported Platforms & Media Specifications
 
-ImaLoader provides direct, official support for the major social networks, pulling the absolute highest quality stream available:
+ImaLoader extracts media directly from official platform distribution servers at the highest bitrates and resolutions exposed:
 
 <div align="center">
 
-| Platform | Logo | Video Quality | Audio Quality | Status |
-| :--- | :---: | :---: | :---: | :---: |
-| **YouTube** | <img src="https://cdn.simpleicons.org/youtube/FF0000" width="30" height="30" alt="YouTube" /> | **Max Available** *(Up to 4K UHD)* | AAC (128 kbps) | ![Supported](https://img.shields.io/badge/Active-107C41?style=flat-square) |
-| **TikTok** | <img src="https://cdn.simpleicons.org/tiktok/000000" width="30" height="30" alt="TikTok" /> | **Max Available** *(Watermark-Free)* | AAC (128 kbps) | ![Supported](https://img.shields.io/badge/Active-107C41?style=flat-square) |
-| **Instagram** | <img src="https://cdn.simpleicons.org/instagram/E4405F" width="30" height="30" alt="Instagram" /> | **Max Source Quality** *(Reels & Posts)* | AAC (128 kbps) | ![Supported](https://img.shields.io/badge/Active-107C41?style=flat-square) |
-| **X (Twitter)** | <img src="https://cdn.simpleicons.org/x/000000" width="30" height="30" alt="X" /> | **Max Source Bitrate** | AAC (128 kbps) | ![Supported](https://img.shields.io/badge/Active-107C41?style=flat-square) |
-| **Facebook** | <img src="https://cdn.simpleicons.org/facebook/1877F2" width="30" height="30" alt="Facebook" /> | **Max Available** *(HD / 1080p)* | AAC (128 kbps) | ![Supported](https://img.shields.io/badge/Active-107C41?style=flat-square) |
+| Platform | Supported Video Stream | Audio Stream | Engine Status |
+| :--- | :--- | :---: | :---: |
+| <img src="https://cdn.simpleicons.org/youtube/FF0000" width="16" height="16" /> **YouTube** | **Max Native Quality** *(Up to 4K / 2160p 60fps)* | `AAC 128 kbps` | ![Online](https://img.shields.io/badge/Supported-10B981?style=flat-square) |
+| <img src="https://cdn.simpleicons.org/tiktok/FFFFFF" width="16" height="16" /> **TikTok** | **Original Resolution** *(Watermark-Free HD)* | `AAC 128 kbps` | ![Online](https://img.shields.io/badge/Supported-10B981?style=flat-square) |
+| <img src="https://cdn.simpleicons.org/instagram/E4405F" width="16" height="16" /> **Instagram** | **Source Bitrate** *(Reels, Stories & Feeds)* | `AAC 128 kbps` | ![Online](https://img.shields.io/badge/Supported-10B981?style=flat-square) |
+| <img src="https://cdn.simpleicons.org/x/FFFFFF" width="16" height="16" /> **X (Twitter)** | **Highest Available MP4 Stream** *(Up to 1080p)* | `AAC 128 kbps` | ![Online](https://img.shields.io/badge/Supported-10B981?style=flat-square) |
+| <img src="https://cdn.simpleicons.org/facebook/1877F2" width="16" height="16" /> **Facebook** | **Full HD Stream** *(Highest Public Bitrate)* | `AAC 128 kbps` | ![Online](https://img.shields.io/badge/Supported-10B981?style=flat-square) |
 
 </div>
 
 ---
 
-## ⚡ What Makes ImaLoader Great
+## 🚀 Key Highlights
 
-```
-┌────────────────────────────────────────────────────────┐
-│                      ImaLoader                         │
-│                                                        │
-│   [ Video Stream ] ──> Maximum Native Resolution       │
-│   [ Audio Stream ] ──> Clean AAC @ 128 kbps Format     │
-│   [ Architecture ] ──> Non-Profit & 100% Open Source   │
-└────────────────────────────────────────────────────────┘
+<div align="center">
+
+```ascii
+┌────────────────────────────────────────────────────────────────────────┐
+│                        IMALOADER CORE PIPELINE                         │
+│                                                                        │
+│   Video Engine  ───► Direct extraction at peak native resolution       │
+│   Audio Engine  ───► Clean AAC @ 128 kbps (Upgrades currently in dev) │
+│   App Core      ───► 100% Free • Ad-Free • Independent Open-Source    │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-- **Top Video Fidelity:** Always extracts the highest possible quality provided directly by the platform servers.
-- **Universal Audio Delivery:** Audio extractions are currently encoded in standard **AAC at 128 kbps** for instant playback, lightweight storage, and universal compatibility with all media players.
-- **Pure Open Source:** 100% free, non-profit, ad-free, and designed with respect for your privacy.
+</div>
+
+- **Unthrottled Downloads:** Fetches streams directly with maximum download speed and direct-to-storage saving.
+- **Universal Compatibility:** Audio extractions are generated in standard **AAC format at 128 kbps**, providing balanced audio fidelity, minimal battery drain, and out-of-the-box playback across every media player.
+- **No Trackers, No Ads:** Pure open-source engineering focused entirely on user experience and utility.
 
 ---
 
-## 🛠️ Work in Progress & Future Updates
+## 🔧 Work In Progress & Roadmap
 
-> [!TIP]
-> ### 🎧 Audio Quality Upgrades Coming Soon!
-> I am currently actively working on the audio extraction engine to bring **much higher audio quality** options in upcoming releases.
-> 
-> Big updates and exciting new features are right around the corner! Stay tuned by starring this repository ⭐.
+> [!NOTE]
+> ### 🎧 Audio Quality Upgrade in Active Development
+> I am actively rewriting the audio processing pipeline to enable **higher-fidelity audio downloads** (higher bitrates and multi-format support).
+>
+> Major version updates packed with new enhancements and performance improvements are arriving soon!
 
 ---
 
-## ☕ Support the Project
+## ☕ Support the Development
 
-I develop and maintain **ImaLoader** on my own during my free time as an open-source gift to the community. The app is, and will always remain, completely free and unrestricted.
+I develop and maintain **ImaLoader** entirely on my own as a solo developer during my free time. The application is, and will permanently remain, free, open-source, and non-profit.
 
-If ImaLoader has been helpful to you and you'd like to show some appreciation or help me test on more devices, you are more than welcome to send a small tip. There is never any obligation—your use and encouragement already mean a lot!
+If you find ImaLoader useful and would like to support the project, buy me a coffee, or help fuel future development, any voluntary contribution is deeply appreciated. There is never any obligation—thank you simply for using the app and sharing feedback!
 
 <div align="center">
   <br />
   <a href="https://paypal.me/Jherson2830" target="_blank" rel="noopener noreferrer">
-    <img src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" width="320" alt="Donate with PayPal" />
+    <img src="https://img.shields.io/badge/Donate%20with-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white" height="48" alt="Donate with PayPal" />
   </a>
-  <br />
-  <br />
-  <sub>Every little bit helps keep updates coming. Thank you for your support!</sub>
+  <br /><br />
+  <sub>Every bit of support helps keep development active. Thank you!</sub>
 </div>
 
 ---
 
 <div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=6,11,20,27&height=100&section=footer" width="100%" alt="Footer Banner" />
 
 ### Made with ❤️ by **IMA**
 
