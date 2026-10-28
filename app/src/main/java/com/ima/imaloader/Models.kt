@@ -32,14 +32,16 @@ data class MediaInfo(
     val durationSec: Long?,
     val webpageUrl: String?,
     val isYoutubeMusic: Boolean = false,
+    val hasSubtitles: Boolean = false,
     val formats: List<MediaFormat>,
+    val rawJson: String? = null,
     val directUrl: String? = null,
-    val originalUrl: String = "" 
+    val originalUrl: String = "",
 )
+
 
 enum class FileKind { VIDEO, AUDIO }
 
-/** Orden de preferencia en 4K/2K: VP9 (rank 1) gana a AV1 (rank 4) para máxima fluidez */
 enum class VCodec(val title: String, val rank: Int) {
     VP9("VP9", 1),
     H264("H.264", 2),
@@ -66,6 +68,13 @@ enum class VideoCodec(val sort: String) {
     QUALITY("res,fps,vcodec:vp9.2:vp9:av01,br")
 }
 
+/** Contenedor de salida de video estilo Seal */
+enum class VideoContainer(val id: String, val title: String, val desc: String) {
+    MP4("mp4", "MP4", "Recomendado por compatibilidad con galerías, TV y editores."),
+    MKV("mkv", "MKV", "Contenedor flexible sin recodificar, ideal para 4K."),
+    ORIGINAL("orig", "Conservar origen", "Guarda el contenedor nativo del servidor sin remuxear.")
+}
+
 data class Size(val bytes: Long?, val approx: Boolean = false) {
     fun label(): String {
         val b = bytes?.takeIf { it > 0L } ?: return "Tamaño no disponible"
@@ -82,79 +91,86 @@ data class Size(val bytes: Long?, val approx: Boolean = false) {
 data class VideoQuality(val height: Int, val fps: Int, val size: Size) {
     val name: String
         get() = when {
-            height >= 2160 -> "4K Ultra HD"
-            height >= 1440 -> "2K QHD"
-            height >= 1080 -> "Full HD"
-            height >= 720 -> "HD"
-            height >= 480 -> "SD"
-            else -> "Baja"
+            height >= 2160 -> "4K (2160p)"
+            height >= 1440 -> "2K QHD (1440p)"
+            height >= 1080 -> "Full HD (1080p)"
+            height >= 720 -> "HD (720p)"
+            height >= 480 -> "SD (480p)"
+            else -> "Bajo consumo (${height}p)"
         }
 }
 
 data class AudioOutputFormat(
     val id: String,
     val title: String,
-    val qualityArg: String,
-    val isLosslessOrPassthrough: Boolean,
-    val hint: String,
+    val subtitle: String,
+    val requiresConversion: Boolean,
+)
+
+data class AudioBitrateOption(
+    val id: String,      // "0", "320K", "192K", "128K"
+    val title: String,
+    val subtitle: String,
 )
 
 object FormatPlanner {
     val AUDIO_FORMATS = listOf(
         AudioOutputFormat(
             id = "best",
-            title = "Original (Puro)",
-            qualityArg = "0",
-            isLosslessOrPassthrough = true,
-            hint = "Sin recodificar: extrae el stream original (Opus 160k / AAC) con 0% pérdida y portada HD."
-        ),
-        AudioOutputFormat(
-            id = "mp3",
-            title = "MP3 320k",
-            qualityArg = "320K",
-            isLosslessOrPassthrough = false,
-            hint = "MP3 a 320 kbps constantes (CBR) con carátula ID3v2 HD integrada."
+            title = "Mejor audio disponible (Sin convertir)",
+            subtitle = "Descarga el flujo original puro sin pérdida (Opus de alta fidelidad si está disponible)",
+            requiresConversion = false
         ),
         AudioOutputFormat(
             id = "m4a",
-            title = "M4A (AAC)",
-            qualityArg = "0",
-            isLosslessOrPassthrough = false,
-            hint = "Contenedor Apple/Android universal con metadatos completos y portada."
+            title = "M4A",
+            subtitle = "Buena compatibilidad, eficiencia y soporte de carátula oficial",
+            requiresConversion = true
+        ),
+        AudioOutputFormat(
+            id = "mp3",
+            title = "MP3",
+            subtitle = "Máxima compatibilidad con cualquier equipo o reproductor",
+            requiresConversion = true
         ),
         AudioOutputFormat(
             id = "opus",
-            title = "Opus Hi-Fi",
-            qualityArg = "0",
-            isLosslessOrPassthrough = true,
-            hint = "El códec más eficiente de YouTube Music con carátula incrustada."
-        ),
-        AudioOutputFormat(
-            id = "flac",
-            title = "FLAC (Estudio)",
-            qualityArg = "0",
-            isLosslessOrPassthrough = true,
-            hint = "Compresión sin pérdidas con soporte completo de etiquetas y portada HD."
-        ),
+            title = "Opus",
+            subtitle = "Alta eficiencia moderna, si el reproductor lo admite",
+            requiresConversion = true
+        )
+    )
+
+    val AUDIO_BITRATES = listOf(
+        AudioBitrateOption("0", "Mejor calidad disponible", "Ajuste óptimo según la fuente original"),
+        AudioBitrateOption("320K", "320 kbps", "Máximo bitrate constante (si la conversión lo permite)"),
+        AudioBitrateOption("192K", "192 kbps", "Equilibrio entre buena calidad y peso moderado"),
+        AudioBitrateOption("128K", "128 kbps", "Menor tamaño de archivo para ahorrar espacio")
     )
 }
 
 sealed interface Target {
     data class Video(
         val maxHeight: Int? = null,
-        val mp4: Boolean = false,
+        val mp4: Boolean = true,
+        val keepOriginalContainer: Boolean = false,
         val codec: VideoCodec = VideoCodec.COMPAT,
         val formatId: String? = null,
         val formatHasAudio: Boolean = false,
         val withAudio: Boolean = true,
         val audioFormatId: String? = null,
+        val embedSubs: Boolean = false,
+        val saveThumbnail: Boolean = false,
     ) : Target
 
     data class Audio(
-        val format: String = "best",
-        val quality: String = "0",
+        val format: String = "best",         // "best", "mp3", "m4a", "opus"
+        val quality: String = "0",           // "0", "320K", "192K", "128K"
         val formatId: String? = null,
-        val squareCover: Boolean = true, // Recorta la portada a 1:1 estilo álbum musical
+        val embedCover: Boolean = true,
+        val embedMetadata: Boolean = true,
+        val music: Boolean = false,          // Modo canción (portada cuadrada + metadatos iTunes/YTM)
+        val infoJsonPath: String? = null,    // Ruta al análisis enriquecido con datos oficiales
     ) : Target
 }
 
@@ -165,18 +181,24 @@ object TargetCodec {
                 put("type", "video")
                 put("h", t.maxHeight ?: 0)
                 put("mp4", t.mp4)
+                put("orig", t.keepOriginalContainer)
                 put("codec", t.codec.name)
                 put("fid", t.formatId ?: "")
                 put("fha", t.formatHasAudio)
                 put("wa", t.withAudio)
                 put("aid", t.audioFormatId ?: "")
+                put("subs", t.embedSubs)
+                put("thumb", t.saveThumbnail)
             }
             is Target.Audio -> {
                 put("type", "audio")
-                put("fmt", t.format)
+                put("f", t.format)
                 put("q", t.quality)
                 put("fid", t.formatId ?: "")
-                put("sq", t.squareCover)
+                put("cov", t.embedCover)
+                put("meta", t.embedMetadata)
+                put("music", t.music)
+                put("ij", t.infoJsonPath ?: "")
             }
         }
     }.toString()
@@ -185,54 +207,64 @@ object TargetCodec {
         val o = JSONObject(raw)
         return if (o.optString("type") == "audio") {
             Target.Audio(
-                format = o.optString("fmt", "best"),
+                format = o.optString("f", o.optString("fmt", "best")),
                 quality = o.optString("q", "0"),
                 formatId = o.optString("fid").ifEmpty { null },
-                squareCover = o.optBoolean("sq", true),
+                embedCover = o.optBoolean("cov", true),
+                embedMetadata = o.optBoolean("meta", true),
+                music = o.optBoolean("music", false),
+                infoJsonPath = o.optString("ij").ifEmpty { null },
             )
         } else {
             val codecName = o.optString("codec", VideoCodec.COMPAT.name)
             val codec = runCatching { VideoCodec.valueOf(codecName) }.getOrDefault(VideoCodec.COMPAT)
             Target.Video(
                 maxHeight = o.optInt("h", 0).takeIf { it > 0 },
-                mp4 = o.optBoolean("mp4", false),
+                mp4 = o.optBoolean("mp4", true),
+                keepOriginalContainer = o.optBoolean("orig", false),
                 codec = codec,
                 formatId = o.optString("fid").ifEmpty { null },
                 formatHasAudio = o.optBoolean("fha", false),
                 withAudio = o.optBoolean("wa", true),
                 audioFormatId = o.optString("aid").ifEmpty { null },
+                embedSubs = o.optBoolean("subs", false),
+                saveThumbnail = o.optBoolean("thumb", false),
             )
         }
     }
 }
 
 enum class DownloadPhase(val label: String) {
-    PREPARING("Preparando motor..."),
-    DOWNLOADING("Descargando stream..."),
-    MERGING("Uniendo pistas e incrustando portada HD..."),
-    EXPORTING("Guardando en tu biblioteca..."),
-    COMPLETED("¡Descarga completada!"),
-    PAUSED("En pausa (esperando red)..."),
+    PREPARING("Preparando flujos y formatos..."),
+    DOWNLOADING("Descargando contenido..."),
+    MERGING("Procesando formato, carátula y metadatos..."),
+    EXPORTING("Guardando en la biblioteca del dispositivo..."),
+    COMPLETED("Descarga completada"),
+    PAUSED("Descarga en pausa"),
     FAILED("Error en la descarga")
 }
 
 data class DownloadTaskUi(
     val id: String,
+    val url: String,
+    val target: Target,
     val title: String,
     val thumbnail: String?,
     val progressPct: Int,
+    val downloadedText: String?,
     val speedText: String?,
     val etaText: String?,
     val phase: DownloadPhase,
     val exportedUri: String? = null,
+    val exportedMime: String? = null,
+    val finalFileName: String? = null,
+    val finalSizeBytes: Long? = null,
     val errorText: String? = null,
 )
 
 enum class ErrorKind {
     NETWORK, FORBIDDEN, LOGIN, FORMAT, STORAGE, PROCESSING, CANCELED,
-    EXTRACTOR, UNSUPPORTED,
-    RESTRICTED,   // NUEVO: audiencia restringida (edad, región, cuenta privada)
-    UNKNOWN
+    EXTRACTOR, UNSUPPORTED, RESTRICTED, UNKNOWN
 }
 
 class DownloadException(val kind: ErrorKind, message: String, cause: Throwable? = null) :

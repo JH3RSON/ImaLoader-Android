@@ -22,12 +22,16 @@ object FormatCatalog {
                 .thenByDescending { it.tbr ?: 0.0 }
         )
 
-    /** Pistas de solo audio ordenadas por bitrate real (Opus 251 suele ir primero en YouTube) */
+    /** Pistas de solo audio ordenadas por calidad real. (Se prioriza Opus 251 por su eficiencia sobre AAC) */
     fun audioFormats(info: MediaInfo): List<MediaFormat> {
         val audioOnly = info.formats.filter { it.isAudioOnly }
         val source = audioOnly.ifEmpty { info.formats.filter { it.hasAudio } }
         return source.sortedWith(
-            compareByDescending<MediaFormat> { it.abr ?: it.tbr ?: 0.0 }
+            compareByDescending<MediaFormat> {
+                var kbps = it.abr ?: it.tbr ?: 0.0
+                if (isOpus(it)) kbps += 40.0 // Bonus a Opus para que siempre gane a AAC (140)
+                kbps
+            }
                 .thenByDescending { it.sizeBytes ?: 0L }
         )
     }

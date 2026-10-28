@@ -12,64 +12,81 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 
+data class ExportedMediaResult(
+    val uri: Uri,
+    val fileName: String,
+    val mimeType: String,
+    val sizeBytes: Long,
+)
+
 object StorageExporter {
 
     private const val ROOT_WORK_DIR = "dl_work"
     private const val SUBFOLDER = "ImaLoader"
 
-    /** Carpeta temporal aislada para cada proceso de descarga */
     fun workDirFor(context: Context, processId: String): File =
         File(File(context.applicationContext.cacheDir, ROOT_WORK_DIR), processId)
 
-    /** Elimina por completo la carpeta temporal de una descarga terminada o cancelada */
     fun cleanWorkDir(context: Context, processId: String) {
         runCatching { workDirFor(context, processId).deleteRecursively() }
     }
 
-    /** Se ejecuta al iniciar la app: borra restos de descargas viejas (>12h) y caché de yt-dlp */
     fun purgeStaleCache(context: Context) {
-        runCatching {
-            val appCtx = context.applicationContext
-            val root = File(appCtx.cacheDir, ROOT_WORK_DIR)
-            val cutoff = System.currentTimeMillis() - (12L * 3600L * 1000L)
-            root.listFiles()?.forEach { dir ->
-                if (dir.lastModified() < cutoff) dir.deleteRecursively()
-            }
-            // También limpiamos la carpeta interna de caché que yt-dlp haya podido crear
-            File(appCtx.cacheDir, "yt-dlp").deleteRecursively()
-            File(appCtx.filesDir, ".cache").deleteRecursively()
-        }
+        StorageGuard.clean(context)
     }
 
-    /**
-     * Mueve el archivo final desde la carpeta temporal hacia Música o Películas/Descargas
-     * del teléfono y borra la carpeta temporal para dejar 0 bytes de basura.
-     */
     suspend fun exportAndClean(
         context: Context,
         workDir: File,
         isAudio: Boolean,
-    ): Uri? = withContext(Dispatchers.IO) {
+        exportSeparateThumbnail: Boolean = false,
+    ): ExportedMediaResult? = withContext(Dispatchers.IO) {
         val mediaFile = findCompletedMediaFile(workDir) ?: return@withContext null
-        val exportedUri = try {
-            moveFileToMediaStore(context.applicationContext, mediaFile, isAudio)
+        val sizeBytes = mediaFile.length()
+        val ext = mediaFile.extension.lowercase()
+        val mime = resolveMimeType(ext, isAudio)
+        val fileName = mediaFile.name
+
+        try {
+            if (exportSeparateThumbnail) {
+                findSeparateImageFile(workDir)?.let { img ->
+                    runCatching { moveImageToPictures(context.applicationContext, img) }
+                }
+            }
+            val uri = moveFileToMediaStore(context.applicationContext, mediaFile, mime, isAudio)
+                ?: return@withContext null
+            ExportedMediaResult(
+                uri = uri,
+                fileName = fileName,
+                mimeType = mime,
+                sizeBytes = sizeBytes,
+            )
         } finally {
-            // Pase lo que pase tras exportar, borramos los archivos temporales
             runCatching { workDir.deleteRecursively() }
         }
-        exportedUri
     }
 
     private fun findCompletedMediaFile(workDir: File): File? {
-        val ignoredExts = setOf("part", "ytdl", "temp", "json", "jpg", "webp", "png")
+        val ignoredExts = setOf("part", "ytdl", "temp", "json", "jpg", "jpeg", "webp", "png", "vtt", "srt")
         return workDir.listFiles()
             ?.filter { it.isFile && it.length() > 0L && it.extension.lowercase() !in ignoredExts }
             ?.maxByOrNull { it.length() }
     }
 
-    private fun moveFileToMediaStore(context: Context, source: File, isAudio: Boolean): Uri? {
+    private fun findSeparateImageFile(workDir: File): File? {
+        val imageExts = setOf("jpg", "jpeg", "png", "webp")
+        return workDir.listFiles()
+            ?.filter { it.isFile && it.length() > 0L && it.extension.lowercase() in imageExts }
+            ?.maxByOrNull { it.length() }
+    }
+
+    private fun moveFileToMediaStore(
+        context: Context,
+        source: File,
+        mime: String,
+        isAudio: Boolean,
+    ): Uri? {
         val ext = source.extension.lowercase()
-        val mime = resolveMimeType(ext, isAudio)
         val displayName = source.name
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -117,6 +134,22 @@ object StorageExporter {
             source.delete()
             MediaScannerConnection.scanFile(context, arrayOf(destFile.absolutePath), arrayOf(mime), null)
             return Uri.fromFile(destFile)
+        }
+    }
+
+    private fun moveImageToPictures(context: Context, source: File) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            val resolver = context.contentResolver
+            val values = ContentValues().apply {
+                put(MediaStore.MediaColumns.DISPLAY_NAME, source.name)
+                put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
+                put(MediaStore.MediaColumns.RELATIVE_PATH, "${Environment.DIRECTORY_PICTURES}/$SUBFOLDER")
+            }
+            val uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values) ?: return
+            resolver.openOutputStream(uri)?.use { out ->
+                source.inputStream().use { it.copyTo(out) }
+            }
+            source.delete()
         }
     }
 

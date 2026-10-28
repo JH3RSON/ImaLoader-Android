@@ -30,7 +30,6 @@ object InfoParser {
             "music.youtube.com" in webUrl.lowercase() ||
             o.str("album") != null
 
-        // Limpieza de "- Topic" que YouTube agrega a los canales de artistas oficiales
         val rawArtist = o.str("artist") ?: o.str("creator") ?: o.str("uploader") ?: root.str("uploader")
         val cleanArtist = rawArtist
             ?.removeSuffix(" - Topic")
@@ -43,6 +42,8 @@ object InfoParser {
             ?: o.str("upload_date")?.take(4)
 
         val hdThumb = pickBestThumbnail(o) ?: pickBestThumbnail(root)
+        val subsObj = o.optJSONObject("subtitles") ?: o.optJSONObject("automatic_captions")
+        val hasSubs = subsObj != null && subsObj.length() > 0
 
         return MediaInfo(
             id = id,
@@ -54,12 +55,13 @@ object InfoParser {
             durationSec = o.lng("duration"),
             webpageUrl = webUrl,
             isYoutubeMusic = isYtMusic,
+            hasSubtitles = hasSubs,
             formats = formats,
-            originalUrl = requestedUrl
+            rawJson = o.toString(),
+            originalUrl = requestedUrl // Add back to fix compilation
         )
     }
 
-    /** Busca la miniatura de mayor resolución real y elimina recortes de baja calidad */
     private fun pickBestThumbnail(o: JSONObject): String? {
         val thumbs = o.optJSONArray("thumbnails")
         var bestUrl: String? = null
@@ -72,7 +74,6 @@ object InfoParser {
                 val w = t.lng("width") ?: 0L
                 val h = t.lng("height") ?: 0L
                 val pref = t.int("preference")?.toLong() ?: 0L
-                // Preferimos JPG/PNG sobre WebP para máxima compatibilidad en carátulas
                 val formatBonus = if (".webp" in url.lowercase()) 0L else 50_000L
                 val score = (w * h) + (pref * 10_000L) + formatBonus
                 if (score >= bestScore) {
@@ -83,7 +84,6 @@ object InfoParser {
         }
 
         val chosen = bestUrl ?: o.str("thumbnail") ?: return null
-        // En ytimg.com, quitar "?sqp=..." devuelve la imagen completa sin compresión extra
         return if ("ytimg.com" in chosen && "?sqp=" in chosen) {
             chosen.substringBefore("?sqp=")
         } else {

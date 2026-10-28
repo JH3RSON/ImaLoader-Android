@@ -150,7 +150,7 @@ fun YouTubeScreen(
                     shape = RoundedCornerShape(12.dp),
                     contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
                 ) {
-                    Text("Buscar", fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                    Text("Buscar", fontSize = 12.sp, fontWeight = FontWeight.Bold)
                 }
             }
         }
@@ -179,7 +179,7 @@ fun YouTubeScreen(
                                 text = "Reproduciendo",
                                 color = Color.White,
                                 fontSize = 12.sp,
-                                fontWeight = FontWeight.SemiBold
+                                fontWeight = FontWeight.Bold
                             )
                             IconButton(
                                 onClick = viewModel::closePlayer,
@@ -236,7 +236,7 @@ fun YouTubeScreen(
                             text = viewModel.searchError.orEmpty(),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.error,
-                            fontWeight = FontWeight.Medium
+                            fontWeight = FontWeight.Normal
                         )
                         Spacer(Modifier.height(12.dp))
                         OutlinedButton(
@@ -335,7 +335,7 @@ private fun PlatformSelector(
                         text = mode.label,
                         color = contentColor,
                         fontSize = 13.sp,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                     )
                 }
             }
@@ -420,7 +420,7 @@ private fun SearchResultCard(
                     Text(
                         text = item.title,
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.SemiBold,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2,
                         overflow = TextOverflow.Ellipsis

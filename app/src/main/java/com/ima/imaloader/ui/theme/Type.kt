@@ -1,74 +1,63 @@
+@file:OptIn(ExperimentalTextApi::class)
+
 package com.ima.imaloader.ui.theme
 
 import androidx.compose.material3.Typography
-import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontVariation
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import com.ima.imaloader.R
 
-// Set of Material typography styles using system sans-serif fonts without remates
-val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+val NunitoRounded = FontFamily(
+    Font(
+        resId = R.font.nunito,
+        weight = FontWeight.Normal,
+        variationSettings = FontVariation.Settings(FontVariation.weight(600))
     ),
-    bodyMedium = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.25.sp
+    Font(
+        resId = R.font.nunito,
+        weight = FontWeight.Medium,
+        variationSettings = FontVariation.Settings(FontVariation.weight(700))
     ),
-    bodySmall = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.4.sp
+    Font(
+        resId = R.font.nunito,
+        weight = FontWeight.SemiBold,
+        variationSettings = FontVariation.Settings(FontVariation.weight(800))
     ),
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Bold,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
+    Font(
+        resId = R.font.nunito,
+        weight = FontWeight.Bold,
+        variationSettings = FontVariation.Settings(FontVariation.weight(900))
     ),
-    titleMedium = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.SemiBold,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
-    ),
-    titleSmall = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
-    ),
-    labelLarge = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
-        fontSize = 14.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
-        fontSize = 12.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.SansSerif,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+    Font(
+        resId = R.font.nunito,
+        weight = FontWeight.ExtraBold,
+        variationSettings = FontVariation.Settings(FontVariation.weight(1000))
     )
+)
+
+private val defaultTypography = Typography()
+
+val AppTypography = Typography(
+    displayLarge = defaultTypography.displayLarge.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.ExtraBold),
+    displayMedium = defaultTypography.displayMedium.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.ExtraBold),
+    displaySmall = defaultTypography.displaySmall.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Bold),
+    
+    headlineLarge = defaultTypography.headlineLarge.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Bold),
+    headlineMedium = defaultTypography.headlineMedium.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Bold),
+    headlineSmall = defaultTypography.headlineSmall.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Bold),
+    
+    titleLarge = defaultTypography.titleLarge.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Bold),
+    titleMedium = defaultTypography.titleMedium.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Bold),
+    titleSmall = defaultTypography.titleSmall.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Bold),
+    
+    bodyLarge = defaultTypography.bodyLarge.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Normal),
+    bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Normal),
+    bodySmall = defaultTypography.bodySmall.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Normal),
+    
+    labelLarge = defaultTypography.labelLarge.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Normal),
+    labelMedium = defaultTypography.labelMedium.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Normal),
+    labelSmall = defaultTypography.labelSmall.copy(fontFamily = NunitoRounded, fontWeight = FontWeight.Normal)
 )

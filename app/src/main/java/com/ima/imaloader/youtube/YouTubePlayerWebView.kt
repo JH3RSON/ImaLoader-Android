@@ -126,7 +126,7 @@ private fun PlayerWebViewInner(videoId: String, modifier: Modifier) {
                     }, "AndroidPlayer")
 
                     loadDataWithBaseURL(
-                        PLAYER_BASE_URL,
+                        "https://www.youtube.com/",
                         buildPlayerHtml(videoId),
                         "text/html",
                         "UTF-8",
@@ -182,13 +182,13 @@ private fun buildPlayerHtml(videoId: String): String = """
     function onYouTubeIframeAPIReady() {
       player = new YT.Player('player', {
         videoId: '$videoId',
-        host: 'https://www.youtube-nocookie.com',
+        host: 'https://www.youtube.com',
         playerVars: {
           'playsinline': 1,
           'controls': 1,
           'rel': 0,
           'modestbranding': 1,
-          'origin': '$PLAYER_BASE_URL',
+          'origin': 'https://www.youtube.com',
           'enablejsapi': 1
         },
         events: {

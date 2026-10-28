@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ImaLoader</string>
+    <string name="language_title">Language / Idioma</string>
+    <string name="app_theme">App Theme</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_search">Search</string>
+    <string name="tab_downloads">Downloads</string>
+    <string name="tab_donate">Donate</string>
+    <string name="search_title">Search</string>
+    <string name="support_project_title">Support the project</string>
+    <string name="hello_im_ima">Hello! I\'m Ima 👋</string>
+    <string name="donate_description">I\'m an independent developer. If you find this app useful in your daily life and want to buy me a coffee, you can support me with a donation. Don\'t worry if you can\'t donate, ImaLoader will remain 100% free and ad-free!</string>
+    <string name="donate_button">☕ Donate via Ko-fi</string>
+    <string name="suggestions_title">Suggestions or problems?</string>
+    <string name="suggestions_description">If you have any suggestions, ideas, or find any bugs, feel free to contact me on my personal Telegram.</string>
+    <string name="telegram_button">💬 Message @IMA_2830</string>
+
+    <!-- Descargas -->
+    <string name="download_paused">Downloads paused</string>
+    <string name="download_timeout">Background time limit reached. Open ImaLoader to resume.</string>
+    <string name="downloads_finished">Downloads finished</string>
+    <string name="downloading">Downloading…</string>
+    <string name="download_stalled">No network traffic for a while. Check your connection or cancel.</string>
+    <string name="download_processing">Processing…</string>
+    <string name="download_cancel">Cancel</string>
+    <string name="download_ready">Ready</string>
+    <string name="download_active_count">%1$d active downloads</string>
+
+    <!-- Temas -->
+    <string name="theme_auto_desc">Auto active: switches between Light and Dark based on your Android system.</string>
+    <string name="theme_material_desc">Material You active: uses dynamic colors from your wallpaper.</string>
+    <string name="theme_auto">Auto</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_material">Material You</string>
+    <string name="theme_imaloader">ImaLoader</string>
+    <string name="theme_retro">Retro</string>
+
+    <string name="language_es">🇪🇸 Español</string>
+    <string name="language_en">🇺🇸 English</string>
+</resources>

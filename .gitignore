@@ -13,3 +13,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Llaves privadas y certificados
+*.jks
+*.keystore
+
+# Compilación interna de módulos y APKs
+app/build/
+.kotlin/
+app/release/
+*.apk

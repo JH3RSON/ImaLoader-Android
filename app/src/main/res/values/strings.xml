@@ -1,3 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ImaLoader</string>
+    <string name="language_title">Idioma / Language</string>
+    <string name="app_theme">Tema de la aplicación</string>
+    <string name="tab_home">Inicio</string>
+    <string name="tab_search">Buscar</string>
+    <string name="tab_downloads">Descargas</string>
+    <string name="tab_donate">Donar</string>
+    <string name="search_title">Buscar</string>
+    <string name="support_project_title">Apoyar el proyecto</string>
+    <string name="hello_im_ima">¡Hola! Soy Ima 👋</string>
+    <string name="donate_description">Soy un desarrollador independiente. Si la app te resulta útil en tu día a día y quieres invitarme un café, puedes apoyarme con una donación. ¡Si no puedes donar no te preocupes, ImaLoader seguirá siendo 100% gratuita y sin anuncios!</string>
+    <string name="donate_button">☕ Donar vía Ko-fi</string>
+    <string name="suggestions_title">¿Sugerencias o problemas?</string>
+    <string name="suggestions_description">Si tienes alguna sugerencia, idea o encuentras algún error, no dudes en escribirme a mi Telegram personal.</string>
+    <string name="telegram_button">💬 Escribir a @IMA_2830</string>
+
+    <!-- Descargas -->
+    <string name="download_paused">Descargas en pausa</string>
+    <string name="download_timeout">Límite de tiempo en segundo plano alcanzado. Abre ImaLoader para reanudar.</string>
+    <string name="downloads_finished">Descargas finalizadas</string>
+    <string name="downloading">Descargando…</string>
+    <string name="download_stalled">Sin tráfico de red hace rato. Revisa tu conexión o cancela.</string>
+    <string name="download_processing">Procesando…</string>
+    <string name="download_cancel">Cancelar</string>
+    <string name="download_ready">Listo</string>
+    <string name="download_active_count">%1$d descargas en curso</string>
+
+    <!-- Temas -->
+    <string name="theme_auto_desc">Automático activo: cambia entre Claro y Oscuro según tu sistema Android.</string>
+    <string name="theme_material_desc">Material You activo: toma los colores dinámicos de tu fondo de pantalla.</string>
+    <string name="theme_auto">Automático</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="theme_material">Material You</string>
+    <string name="theme_imaloader">ImaLoader</string>
+    <string name="theme_retro">Retro</string>
+
+    <string name="language_es">🇪🇸 Español</string>
+    <string name="language_en">🇺🇸 English</string>
 </resources>
