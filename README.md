@@ -108,7 +108,7 @@ The APK lands in `app/build/outputs/apk/debug/`.
 
 ## $ cat credits.txt
 
-ImaLoader runs on [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [FFmpeg](https://ffmpeg.org). The app is inspired by [Seal](https://github.com/JunkFood02/Seal). License: see [LICENSE](LICENSE).
+ImaLoader runs on [yt-dlp](https://github.com/yt-dlp/yt-dlp) and [FFmpeg](https://ffmpeg.org). License: see [LICENSE](LICENSE).
 
 ImaLoader is meant for saving content you're allowed to save. It isn't affiliated with YouTube, TikTok, Instagram, Facebook or X.
 
