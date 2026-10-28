@@ -83,7 +83,11 @@ What you get always depends on what each site serves for that file. ImaLoader sh
 
 ## $ whoami
 
-I'm IMA. I make Android apps and work on custom ROM support for Google Pixel phones. ImaLoader is one of my projects, and the code is open, so you can read exactly what it does. Ideas and bug reports are welcome. You'll find the rest on [my profile](https://github.com/JH3RSON), like [ALMA](https://github.com/JH3RSON/ALMA), an offline journal.
+I'm IMA, an independent developer. I build Android apps and work on custom ROM support for Google Pixel phones, and my goal is simple: free apps for everyone. ImaLoader is one of them, and its code is open, so you can read exactly what it does.
+
+I work on this on my own, and donations help me keep building. If ImaLoader is useful to you and you feel like it, you can buy me a coffee below. If not, no problem at all: use it, enjoy it and share it with a friend. Ideas and bug reports are always welcome.
+
+You'll find the rest of my work on [my profile](https://github.com/JH3RSON), like [ALMA](https://github.com/JH3RSON/ALMA), an offline journal.
 
 ## $ ./contact.sh
 
